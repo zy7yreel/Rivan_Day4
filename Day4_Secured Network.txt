@@ -1,0 +1,1307 @@
+
+Your Monitor Number = #$34T#
+__________
+**********
+00. Warm up for Day 4
+
+1. Setup your Day 1 BUT DO NOT configure any device.
+
+__________
+**********
+01. Warm Up Exercises:
+
+QnA 01. Which two encoding methods are supported by REST APIs? (Choose Two)
+	A. SGML
+	B. YAML
+	C. XML
+	D. JSON
+	E. EBCDIC
+
+QnA 02. Which output displays a JSON data representation?
+A.
+	{
+	  "response":{
+	  "taskld":{};
+	  "url": "string"
+	  };
+	  "version": "string"
+	}
+
+B.
+	{
+	  "response"-{
+	  "taskld"-{},
+	  "url"- "string"
+	  },
+	  "version"- "string"
+	}
+
+C.
+	{
+	  "response":{
+	  "taskld":{},
+	  "url": "string"
+	  },
+	  "version": "string"
+	}
+
+D.
+	{
+	  "response",{
+	  "taskld",{};
+	  "url", "string"
+	  };
+	  "version", "string"
+
+	}
+
+
+Ex 01. OSPF Configuration
+
+Refer to the Topology.
+ 
+All routers are configured with IP addressing EXCEPT for the 
+link between R1 & R3. 
+Finish the configuration by completing the ff:
+
+Task 1. 
+	Using the 172.16.160.0/21 network, 
+	- assign the 1st VALID ip address on R1's e0/1 interface.
+	- assign the Last VALID ip address on R3's e0/1 interface.
+
+Task 2.
+	Configure single area OSPF on all routers with the ff:
+	- All routers belong to AREA 2
+	- Use OSPF Process 5
+	- Assign each router's LOOPBACK 0 as their router ID.
+	- The link between R2 & R3 must be point-to-point.
+	- R1 must have the lowest priority on its e0/0 & e0/1 interfaces.
+	- Advertise all Connected routes.
+
+Task 3.
+	Configure static routes.
+	- Configure a static host route on R1 destined for R3's LOOPBACK 
+	using R3 as the next hop.
+	
+	- Configure a floating static route on R1 destined for R3's LOOPBACK 
+	using R2 as the next hop with an Administrative Distance equal 
+	to EXTERNAL EIGRP.
+
+
+
+ANSWER HERE
+
+Task 1.
+
+@R1
+conf t
+ interface ___
+  ip add ___.___.___.___  ___.___.___.___
+  no shut
+  end
+
+@R3
+conf t
+ interface ___
+  ip add ___.___.___.___  ___.___.___.___
+  no shut
+  end
+
+
+Task 2.
+
+@R1
+conf t
+ interface ___
+  ip ospf ___ ___
+ interface ___
+  ip ospf ___ ___
+ router ospf ___
+  router-id ___.___.___.___
+  network ___.___.___.___  ___.___.___.___ area ___
+  network ___.___.___.___  ___.___.___.___ area ___
+  network ___.___.___.___  ___.___.___.___ area ___
+  end
+
+@R2
+conf t
+ interface ___
+  ip ospf ___ ___
+  exit
+ router ospf ___
+  router-id ___ 
+  network ___.___.___.___  ___.___.___.___ area ___
+  network ___.___.___.___  ___.___.___.___ area ___
+  network ___.___.___.___  ___.___.___.___ area ___
+  end
+  
+@R3
+conf t
+ interface ___
+  ip ospf ___ ___
+  exit
+ router ospf 5
+  router-id ___ 
+  network ___.___.___.___  ___.___.___.___ area ___
+  network ___.___.___.___  ___.___.___.___ area ___
+  network ___.___.___.___  ___.___.___.___ area ___
+  end
+  
+  
+Task 3.
+
+@R1
+conf t
+ ip route 192.168.5.33 255.255.255.___  ___.___.___.___
+ ip route 192.168.5.33 255.255.255.___  ___.___.___.___  ___
+ end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANSWERS:
+
+Task 1.
+
+@R1
+conf t
+ interface 0/0
+  ip ospf priority 0
+ interface e0/1
+  ip add 172.16.160.1 255.255.248.0
+  ip ospf priority 0
+  no shut
+  exit
+ router ospf 5
+  router-id 172.16.97.111
+  network 172.16.97.111 0.0.0.0 area 2
+  network 10.0.15.64 0.0.0.31 area 2
+  network 172.16.160.0 0.0.7.255 area 2
+  exit
+ ip route 192.168.5.33 255.255.255.255 172.16.167.254
+ ip route 192.168.5.33 255.255.255.255 10.0.15.90 170
+  end
+
+@R2
+conf t
+ interface e0/1
+  ip ospf network point-to-point
+  exit
+ router ospf 5
+  router-id 10.46.187.22 
+  network 10.46.187.22 0.0.0.0 area 2
+  network 10.0.15.64 0.0.0.31 area 2
+  network 192.168.0.152 0.0.0.3 area 2
+  end
+  
+@R3
+conf t
+ interface e0/0
+  ip ospf network point-to-point
+  exit
+ interface e0/1
+  ip add 172.16.167.254 255.255.248.0
+  no shut
+  exit
+ router ospf 5
+  router-id 192.168.5.33
+  network 192.168.5.33 0.0.0.0 area 2
+  network 192.168.0.152 0.0.0.3 area 2
+  network 172.16.160.0 0.0.7.255 area 2
+  end
+  
+  
+__________
+**********
+02. Configuration and Infrastructure Management Tools
+(Ansible, Terraform, Puppet, & Chef)
+
+Agentless vs Agentbased
+
+Puppet - Master (8143) & Agent (8142)
+Chef - Server (10000 & 10002) & Client
+
+
+Programming Language
+
+Ansible - Python
+Chef & Puppet(.pp) - Ruby, DSL (Domain-specific Language)
+Terraform(.tf) - HCL (Hashicorp Configuration Language)
+
+
+Configuration Files
+
+### Ansible
+# Playbook (any.yml)
+---
+- name: addloop
+  hosts: realdevices
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: "Create Loopbacks"
+      ios_command:
+        commands:
+          - conf t
+          - int lo100
+          - ip add 100.100.100.100 255.255.255.255
+          - exit
+          - int lo101
+          - ip add 101.101.101.101 255.255.255.255
+          - exit
+          - int lo102
+          - ip add 102.102.102.102 255.255.255.255
+      vars:
+        ansible_network_os: ios
+
+# hosts (Inventory)
+[CoreBaba]
+10.11.1.4
+
+[CoreBaba:vars]
+ansible_user=admin
+ansible_password=C1sc0123
+ansible_connection=network_cli
+ansible_network_os=ios
+
+
+### CHEF
+# Cookbook
+# Recipe (default.rb file)
+
+cisco_ios_config 'set_hostname_and_ssh' do
+  config_lines [
+    "hostname #{node['cisco_ios_config']['hostname']}",
+	"ip domain-name #{node[cisco_ios_config]['domain_name']}",
+	"crypto key generate rsa modulus 2048",
+	"ip ssh version 2",
+	"line vty 0 4",
+	"transport input all",
+	"login local"
+  ]
+  action :apply
+end
+
+# Credentials
+
+['CoreBaba']
+Host = '192.168.240.2'
+User = 'admin'
+Password = 'password'
+
+
+### PUPPET
+# Manifest (.pp Pocket Physics file)
+
+node 'cisco.example.com' {
+  cisco_ios_interface { 'GigabitEthernet0/1':
+    ensure => present,
+    description => "Uplink to Core",
+    speed => 'auto',
+    duplex => 'auto',
+    vlan_access => '10',
+}
+
+# Device.conf (Inventory)
+
+[rivan.com]
+type cisco_ios_interfaceurl file:////etc/puppetlabs/puppet/devices/rivan.com.conf
+
+# Credentials
+
+host: "10.#$34T#.1.4"
+port: 22
+user: admin
+password: password
+enable_password: password
+
+
+### TERRAFORM
+# HCL (.tf File)
+
+terraform {
+  required_providers {
+    iosxe = {
+      source = "CiscoDevNet/iosxe"
+    }
+  }
+}
+
+provider "iosxe" {
+  username = "admin"
+  password = "pass"
+  url      = "https://10.11.11.1"
+}
+
+resource "iosxe_interface_loopback" "example" {
+  name               = 200
+  description        = "My First TF Script Attempt"
+  shutdown           = false
+  ipv4_address       = "2.2.2.2"
+  ipv4_address_mask  = "255.255.255.255"
+}
+
+
+"Get used to reading documentations"
+
+
+
+Exercise 01: Write Scripts to add loopbacks via Python, Ansible, Terraform
+
+Tip - Open "Auto AddLoop" folder
+
+
+__________
+**********
+03. Domain Name System
+"Connect to websites through IP addresses alone"
+
+@cmd
+ping google.com         ___.___.___.___
+ping cisco.com     
+ping rivanit.com   
+
+
+
+Set up your own DNS Server.
+ - Create a Zone File for ccna#$34T#.com
+   Forward & Reverse
+
+ - DNS Records
+
+@cmd
+ping ns.google.com      ___.___.___.___
+ping www
+ping imap
+ping pop
+ping smtp
+
+
+Exercise 02: Configure DNS records for devices:
+  CoreBABA,   cb
+  CoreTaas,   ct
+  CUCM,       cm
+  EDGE,       ed
+  AP,         ap
+  WLC,        wc
+  Cam6,       c6
+  Cam8,       c8
+  Ephone1,    e1
+  Ephone2,    e2
+
+
+Configure a webserver for ccna#$34T#.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########################################################################
+### Powershell Script to install DNS & IIS (Windows Web Server)
+
+Install-WindowsFeature -name dns -includeManagementTools
+﻿Install-WindowsFeature -name Web-Server -includeManagementTools
+
+
+#########################################################################
+### Powershell Script for DNS Zones & Records
+
+add-DnsServerPrimaryZone -Name "ccna#$34T#.com" -ZoneFile "ccna#$34T#.com.dns"
+
+﻿add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name ns -ipv4address 10.#$34T#.1.7
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -Cname -name www -hostname ns.ccna#$34T#.com
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -Cname -name imap -hostname ns.ccna#$34T#.com
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -Cname -name pop -hostname ns.ccna#$34T#.com
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -Cname -name smtp -hostname ns.ccna#$34T#.com
+
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name cb -ipv4address 10.#$34T#.1.4
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name ct -ipv4address 10.#$34T#.1.2
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name cm -ipv4address 10.#$34T#.100.8
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name ed -ipv4address 10.#$34T#.#$34T#.1
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name e1 -ipv4address 10.#$34T#.100.101
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name e2 -ipv4address 10.#$34T#.100.102
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name c6 -ipv4address 10.#$34T#.50.6
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name c8 -ipv4address 10.#$34T#.50.8
+add-DnsServerResourceRecord -zonename ccna#$34T#.com -A -name ap -ipv4address 10.#$34T#.10.3
+
+
+#########################################################################
+### Powershell Script for Website configuration
+
+New-Website -name "ccna#$34T#.com" -hostheader "www.ccna#$34T#.com" -physicalpath "d:\webs\officebiz"
+
+
+
+Exercise 03: Configure DNS and Web for bpiph#$34T#.com
+
+  - The zone file must contain records for Web, eMail, CUCM,EDGE, ePhone1 and ePhone2.
+  - Assign the bpi html as its own main page.
+
+
+
+Internet Assigned Numbers Authority
+Authoritative DNS Root Servers 
+
+What happens when a dns server does not know how to map a domain name?
+
+
+@cmd
+nslookup -type=NS com. a.root-servers.net
+nslookup -type=NS rivanit.com d.gtld-servers.net
+nslookup -type=NS rivanit.com ns1.dns-parking.com
+
+
+Root Servers
+  > TLD
+    > SLD
+	  > DNS RECORDS
+
+DNS Forwarders
+Recursive
+
+
+Lookup nemsu.edu.ph
+
+@cmd
+nslookup -type=NS
+
+
+Configure Forwarders
+
+#########################################################################
+### Powershell Script for DNS Forwarders
+
+! You do not forward things yourself
+
+Remove-DnsServerForwarder -ipAddress 10.11.1.10, 10.12.1.10, 10.21.1.10, 10.22.1.10, 10.31.1.10, 10.32.1.10, 10.41.1.10, 10.42.1.10,10.51.1.10, 10.52.1.10, 10.61.1.10, 10.62.1.10, 10.71.1.10, 10.72.1.10, 10.81.1.10, 10.82.1.10 -PassThru
+Add-DnsServerForwarder -ipAddress 10.11.1.10, 10.12.1.10, 10.21.1.10, 10.22.1.10, 10.31.1.10, 10.32.1.10, 10.41.1.10, 10.42.1.10,10.51.1.10, 10.52.1.10, 10.61.1.10, 10.62.1.10, 10.71.1.10, 10.72.1.10, 10.81.1.10, 10.82.1.10 -PassThru
+
+
+
+
+
+Verify:
+
+@Cisco
+conf t
+ ip domain lookup
+ ip name-server 10.#$34T#.1.10
+ end
+ping ns.ccna#$34T#.com
+
+
+
+__________
+**********
+04. File Transfer
+
+Upload configurations to FTP Server. (CoreTaas, CoreBaba, CUCM, EDGE)
+
+@Cisco
+copy run ftp://ccna#$34T#.com
+
+
+How to copy the current IOS of a Cisco Switch
+
+@Cisco
+archive upload-sw ftp://ccna#$34T#.com
+
+
+
+__________
+**********
+05. Mail Exchanger
+
+Create an MX record on the Zone file.
+	Install .NET Framework 3.5 Features
+
+
+Create users and emails for ccna#$34T#.com and bpiph#$34T#.com
+
+  User1: ac
+  Pass: C1sc0123
+  
+  User: Support
+  Pass: C1sc0123
+  
+  
+
+__________
+**********
+06. SoftWare Defined Networking
+
+On-Prem => Cloud
+
+Infrastructure Layer / Data Plane - Processing of Data
+Control Layer / Control Plane - Reference of Data
+Application Layer / Management Plane - Graphical presentation of Data
+
+@Cisco
+show run
+
+Meraki, SD-WAN, Cisco NSO
+
+
+
+Get started with Meraki: https://account.meraki.com/login
+
+MERAKI Account:
+  Firewall 1 (Monitor Numbers that end with 1)
+	USER: rivanmeraki1@gmail.com
+	PASS: C1sc0,123
+  
+  Firewall 2 (Monitor Numbers that end with 2)
+	USER: rivanmeraki2@gmail.com
+	PASS: C1sc0,123
+	
+
+GMAIL Account (if asked for verification)
+  Firewall 1 
+    USER: rivanmeraki1@gmail.com
+    PASS: C1sc0123$$
+
+  Firewall 2
+   USER: rivanmeraki2@gmail.com
+   PASS: C1sc0123$$
+  
+
+
+
+
+__________
+**********
+07. OSI Layer
+
+PDU (Protocol Data Unit)
+
+7. Application Layer 
+
+"Underlying service that supports applications"
+SMTP
+Resource sharing
+Service advertisement
+Gramaphone
+
+6. Presentation Layer - File extension
+
+Data
+encryption
+-tion
+.wav .jpg .au .exe .psd
+
+
+5. Session Layer - Session established
+
+Data Stream
+stateful
+
+Commands: netstat -s -p tcp, telnet, ssh
+
+
+4. Transport Layer - TCP/UDP
+
+Segments
+Three way handshake
+Sliding Window
+
+Commands: nmap -v 10.#$34T#.1.10
+
+Well-known ports 0 - 1023
+Registered ports 1024 - 49151
+Ephemeral/Dynamic ports 49152 - 65535
+
+
+3. Network Layer - IP addresses
+
+Packets
+Routing protocols
+Forwarding packets
+
+Commands: show ip int br, sh ip route
+
+
+2. Data-link Layer - MAC Addresses
+
+Frames
+FCS
+Preamble
+
+Commands: show vlan brief
+
+
+1. Physical Layer - "Things you touch"
+
+Speed = b 
+Data = B
+
+Commands: show cdp neigh
+
+
+
+
+
+
+
+
+__________
+**********
+08. Security Fundamentals
+
+Setup
+
+CSR1000v:
+  Name: UTM-PH
+  Size: Small
+  Config: None
+  
+  NetAdapter: NAT         208.8.8.0 /24
+  NetAdapter 2: VMnet2    192.168.102.0 /24
+  NetAdapter 3: VMnet3    192.168.103.0 /24
+
+  
+!@UTM-PH
+conf t
+ hostname UTM-PH
+ enable secret pass
+ service password-encryption
+ no logging console
+ no ip domain lookup
+ username admin privilege 15 secret pass
+ ip http server
+ ip http secure-server
+ ip http authentication local
+ line vty 0 24
+  password pass
+  login local
+  exec-timeout 0 0
+  transport input all
+ int g1
+  ip add 208.8.8.11 255.255.255.0
+  no shut
+ int g2
+  ip add 192.168.102.11 255.255.255.0
+  no shut
+ int g3
+  ip add 10.10.10.11 255.255.255.0
+  no shut
+ ip route 0.0.0.0 0.0.0.0 208.8.8.2
+ ip name-server 8.8.8.8 10.#$34T#.1.10
+ ip domain lookup
+ end
+wr
+
+
+How to attack? Network scanning
+
+@cmd
+ping 10.k.100.8
+nmap -sP 10.k.100.0/24
+nmap -v 10.k.100.8
+
+What ports are revealed?
+ -
+ -
+
+
+
+SPAN
+
+@CoreBABA
+conf t
+ monitor session 1 source interface fa0/3,fa0/5,fa0/7
+ monitor session 1 destination interface fa0/1
+ end
+
+Real-time Transport Protocol
+
+
+@cmd
+nmap -sP 10.k.1.0/24
+nmap -v 10.k.1.10
+
+What ports are revealed?
+139? 445?
+
+That's a vulnerable system. No Firewall. Attack it.
+
+net use \\10.k.1.10\ipc$     Privilege Escalation
+net use x: /delete
+net use x: \\10.k.1.10\c$
+
+
+__________
+**********
+09. Packet Filtering
+
+There's a big problem in humanity. 
+It's corrupting everyone's brains.
+
+@cmd
+youporn.com
+pornhub.com
+redtube.com
+faketaxi.com
+bangbros.com
+bangbus.com
+pinayflix.com
+xhamster.com
+iyottube.com
+
+Protect your most important asset: The brain
+
+
+@UTM-PH
+config t
+ no ip access-list standard NOPORNFAP
+ ip access-list standard NOPORNFAP
+  deny __.__.__.__  __.__.__.__
+  deny __.__.__.__  __.__.__.__
+  deny __.__.__.__  __.__.__.__
+  permit any
+ int gi 1
+  ip access-group NOPORNFAP in
+  end
+wr
+show ip access-list int g1
+
+
+Remove the access-list
+
+@UTM-PH
+config t
+ int gi 1
+  no ip access-group NOPORNFAP in
+  end
+
+
+
+Alternative: use standard ACL 1-99
+
+@UTM-PH
+config t
+ no access-list 69
+ access-list 69 deny 66.254.0.0 0.0.255.255
+ access-list 69 deny 104.21.0.0 0.0.255.255
+ access-list 69 deny 68.235.0.0 0.0.255.255
+ access-list 69 deny 104.17.0.0 0.0.255.255
+ access-list 69 deny 88.208.0.0 0.0.255.255
+ access-list 69 deny 208.77.0.0 0.0.255.255
+ access-list 69 deny 172.67.0.0 0.0.255.255
+ access-list 69 permit any
+ int gi 1
+  ip access-group 69 in
+  end
+
+
+Exercise 04: Block schools
+
+@cmd
+ping www.dlsu.edu.ph 
+ping www.ccp.edu.ph      
+ping www.feu.edu.ph 
+ping  www.ue.edu.ph 
+ping  www.yourschool.edu.ph = _________
+
+
+@UTM-PH
+config t
+ no ip access-list standard NOSKUL
+ ip access-list standard NOSKUL
+  deny __.__.__.__  __.__.__.__
+  deny __.__.__.__  __.__.__.__
+  deny __.__.__.__  __.__.__.__
+  permit any
+ int gi 1
+  ip access-group NOSKUL in
+  end
+wr
+show ip access-list int g1
+
+
+Exercise 05: Block torrents
+
+www.thepiratebay.org
+www.limetorrents.com
+www.freeanimeonline.com
+www.torlock2.com
+www.hentaisites.com
+www.iptorrents.com
+
+@UTM-PH
+config t
+ no ip access-list standard NOTOR
+ ip access-list standard NOTOR
+  deny __.__.__.__  __.__.__.__
+  deny __.__.__.__  __.__.__.__
+  deny __.__.__.__  __.__.__.__
+  permit any
+ int gi 1
+  ip access-group NOTOR in
+  end
+wr
+show ip access-list int g1
+
+
+
+Exercise 06: Block Klassmates
+
+config t
+ no ip access-list standard NOCLASSMATES
+ ip access-list standard NOCLASSMATES
+  deny 10.__.0.0 0.0.255.255
+  deny 10.__.0.0 0.0.255.255
+  deny 10.__.0.0 0.0.255.255
+  deny 10.__.0.0 0.0.255.255
+  deny 10.__.0.0 0.0.255.255
+  deny 10.__.0.0 0.0.255.255
+  deny 10.__.0.0 0.0.255.255
+  permit any
+ int gi 0/0/1
+ ip access-group NOCLASSMATES in
+ end
+
+
+
+
+
+BLUE TEAM
+@cmd
+netstat -ano
+
+Higher port = Hacker
+
+SCAN for Vulnerable sites
+
+www.sti.edu.ph
+www.rivanit.com
+www.cia.gov
+www.nemsu.edu.ph
+
+Which sites are secure?
+
+
+RED TEAM
+Make the firewall vulnerable to learn.
+
+@UTM-PH
+config t
+ int gi 3
+  no shut
+  ip add 192.168.103.11 255.255.255.0
+  ip add 192.168.103.10 255.255.255.0 Secondary
+ service finger
+ service tcp-small-servers
+ service udp-small-servers
+ ip dns server
+ ip http server
+ ip http secure-server
+ ip host www.web310.com 192.168.103.10
+ ip host www.web311.com 192.168.103.11
+ end
+
+Review: Create a DNS A record for www.ccna#$34T#.com
+192.168.103.10 www.web310.com
+192.168.103.11 www.web311.com
+  
+  or
+  
+Modify the hosts file: c:\Windows\system32\drivers\etc\hosts
+
+
+Scan the sites:
+
+@cmd
+nmap -v www.web310.com
+nmap -v www.web311.com
+
+
+
+Exercise 07: BLUE TEAM, protect your POGO sites.
+Open only the following port:
+  www.web310.com open only http, https, ping
+  www.web311.com open only dns, https, ssh
+  
+   protocol         hacker    victim       port
+tcp,udp,icmp,IP     Any      web310/11
+
+@UTM-PH
+conf t
+ service timestamps log datetime
+ service timestamps debug datetime
+ logging 10.#$34T#.1.10
+ logging trap 5
+ end
+wr
+
+@UTM-PH
+conf t
+ no ip access-list extended FWP1
+ ip access-list extended FWP1
+ permit tcp Any host www.web310.com eq __ log
+ permit tcp Any host www.web310.com eq __ log
+ permit __ Any host www.web310.com log
+ permit tcp Any host www.web311.com eq __ log
+ permit tcp Any host www.web311.com eq __ log
+ permit tcp Any host www.web311.com eq __ log
+ Int gi 3
+  ip access-group FWP1 in
+  end
+  
+Remove the Firewall:
+
+@UTM-PH
+config t
+ int gi 3
+  no ip access-group FWP1 in
+end
+
+
+
+Exercise 07: Attacking the wrong ports
+
+@UTM-PH
+telnet 208.8.8.11 19
+
+
+
+CTRL + SHIFT + 6 Then X
+
+
+Exercise 08: 
+Create an access-list named FWP2 to open the following ports:
+
+www.web310.com open only ssh, domain, ftp, mysql
+www.web311.com open only imap, smtp, ping, daytime
+
+@UTM-PH
+conf t
+ no ip access-list extended FWP2
+ ip access-list extended FWP2
+ permit __ Any host www.____.com eq __ log
+ permit __ Any host www.____.com eq __ log
+ permit __ Any host www.____.com log
+ permit __ Any host www.____.com eq __ log
+ permit __ Any host www.____.com eq __ log
+ permit __ Any host www.____.com eq __ log
+ Int gi 3
+  ip access-group FWP2 in
+  end
+
+
+Exercise 09: You are the SUPERPRANING Admin for POGO sites:
+www.web310.com open only https
+www.web311.com open only ping
+
+config t
+ no ip access-list Extended PRANING3
+ ip access-list Extended PRANING3
+  ?
+  ?
+ int gi 3
+  ip access-group PRANING3 in
+  end
+
+
+Exercise 10: You are taking the CCNA exam and these are the ports you should remember:
+
+BUT FIRST: Go to UTM-PH GUI and activate CME
+
+Then,
+
+@UTM-PH
+conf t
+ no telephony-service
+ telephony-service
+  no auto assign
+  no auto-reg-ephone
+  max-ephones 5
+  max-dn 20
+  ip source-address 208.8.8.11 port 2000
+  exit
+ voice service voip
+  allow-connections h323 to sip
+          
+  allow-connections sip to h323
+  allow-connections sip to sip
+  supplementary-service h450.12
+ sip
+   bind control source-interface g1
+   bind media source-interface g1
+   registrar server expires max 600 min 60
+ voice register global
+  mode cme
+  source-address 208.8.8.11 port 5060
+  max-dn 12
+  max-pool 12
+  authenticate register
+  create profile sync syncinfo.xml
+  end
+  
+
+Now, open the following ports otherwise you will work in Jollibee.
+
+www.web310.com open only daytime, chargen, skinny-client-control-protocol
+www.web311.com open only domain, discard, sip, finger, h323q931, ping, ntp
+
+@UTM-PH
+config t
+ no ip access-list ______ NOJOLLIBEEPLS
+ ip access-list ______ NOJOLLIBEEPLS
+
+ int gi 3
+  ip ______  ___  ___
+  end
+  
+  
+Make sure to remove firewall for next activity:
+
+@UTM-PH
+end
+show run | s interface
+
+
+
+__________
+**********
+10. Configure Cisco Network Services
+
+NETWORK TIME PROTOCOL OR NTP 
+
+@cmd
+ping time.google.com
+
+@UTM-PH
+config t
+ntp server 216.239.35.8
+end
+show ntp associations
+
+
+Configure Master Time Server
+
+@UTM-PH
+config t
+ntp master 1
+ntp update-calendar
+end
+show ntp associations
+
+
+__________
+**********
+11. Network Address Translation
+
+INSIDE LOCAL    INSIDE GLOBAL    OUTSIDE LOCAL    OUTSIDE GLOBAL
+
+
+
+@BLDG-1
+sudo su
+ifconfig eth0 192.168.103.21 netmask 255.255.255.0 up
+route add default gw 192.168.103.11
+ping 192.168.103.11
+
+@BLDG-2
+sudo su
+ifconfig eth0 192.168.103.22 netmask 255.255.255.0 up
+route add default gw 192.168.103.11
+ping 192.168.103.11
+
+@BLDG-3
+sudo su
+ifconfig eth0 192.168.103.23 netmask 255.255.255.0 up
+route add default gw 192.168.103.11
+
+
+
+
+
+
+
+STEP 1: Define INSIDE AND OUTSIDE
+
+STEP 2: Create Access-list to permit IP of Inside
+
+STEP 3: Create a NAT pool with overload
+
+
+@UTM-PH
+config t
+ int gi 1
+  ip nat OUTSIDE
+ int gi 2
+  ip nat INSIDE
+ int gi 3
+  ip nat INSIDE
+ no access-list 8
+ access-list 8 permit 192.168.102.0 0.0.0.255
+ access-list 8 permit 192.168.103.0 0.0.0.255
+ ip nat inside source list 8 interface Gi 1 overload
+ ip nat inside source static 192.168.103.21 208.8.8.51
+ ip nat inside source static 192.168.103.22 208.8.8.52
+ end
+show ip nat translations 
+
+@BLDGS
+ping   8.8.8.8    4.4.4.4     8.8.4.4
+
+
+
+
+
+Remove Conflicts:
+
+@UTM-PH
+clear ip nat translations *
+ no ip nat inside source list 8 interface Gi 1 overload
+ no ip nat inside source static 192.168.103.21 208.8.8.51
+ no ip nat inside source static 192.168.103.22 208.8.8.52
+ end
+show ip nat translations 
+
+
+
+
+
+
+CREATING A WEB PROXY OR HIDING BEHIND NAT:
+
+@ping
+www.sti.edu.ph:      vs     www.dlsu.edu.ph:
+
+
+Access the web of BLDG first.
+192.168.103.21
+192.168.103.22
+192.168.103.23
+
+
+Now hide behind the firewall.
+
+
+@UTM-PH
+config t
+IP Nat inside source static tcp 192.168.103.21 80 208.8.8.101 8080
+end
+show ip nat translation
+
+Now open 208.8.8.101:8080 on browser
+
+
+
+
+
+
+__________
+**********
+12. S2S VPN
+!@UTM-PH
+conf t
+ hostname UTM-PH
+ enable secret pass
+ service password-encryption
+ no logging console
+ no ip domain lookup
+ username admin privilege 15 secret pass
+ ip http server
+ ip http secure-server
+ ip http authentication local
+ line vty 0 24
+  password pass
+  login local
+  exec-timeout 0 0
+  transport input all
+ int g1
+  ip add 208.8.8.11 255.255.255.0
+  no shut
+ int g2
+  ip add 192.168.102.11 255.255.255.0
+  no shut
+ int g3
+  ip add 10.10.10.11 255.255.255.0
+  no shut
+ ip route 20.20.20.0 255.255.255.0 208.8.8.12
+  end
+wr
+
+
+!@UTM-JP
+conf t
+ hostname UTM-JP
+ enable secret pass
+ service password-encryption
+ no logging console
+ no ip domain lookup
+ username admin privilege 15 secret pass
+ ip http server
+ ip http secure-server
+ ip http authentication local
+ line vty 0 24
+  password pass
+  login local
+  exec-timeout 0 0
+  transport input all
+ int g1
+  ip add 208.8.8.12 255.255.255.0
+  no shut
+ int g2
+  ip add 192.168.102.12 255.255.255.0
+  no shut
+ int g3
+  ip add 20.20.20.12 255.255.255.0
+  no shut
+ ip route 10.10.10.0 255.255.255.0 208.8.8.11
+  end
+wr
+
+
+!@BLDG-PH
+sudo su
+ifconfig eth0 10.10.10.10 netmask 255.255.255.0 up
+route add default gw 10.10.10.11
+ping 10.10.10.11
+
+!@BLDG-JP
+sudo su
+ifconfig eth0 20.20.20.20 netmask 255.255.255.0 up
+route add default gw 20.20.20.12
+ping 20.20.20.12
