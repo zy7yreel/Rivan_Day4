@@ -1,1 +1,33 @@
 
+**************
+Firewall (CSR1000v)
+
+Standard ACL
+
+Activity 01 - Block Porn (General Use Case)
+
+Activity 02 - Block Torrents (Quality of Service)
+
+Activity 03 - Block Classmates 
+
+
+Extended ACL
+Manage company Public IPs by allowing specific ports
+
+Activity 04 - HTTP, HTTPS, 
+
+Activity 05 - Chargen, SMTP, FTP, SNMP
+
+Activity 06 - SCCP, SIP, SSH, RADIUS
+
+
+
+
+**************
+NAT Port Forwarding
+
+Activity 07 - 80:8080, 443:8443
+
+Activity 08 - 22:3899, 80:7256
+
+
