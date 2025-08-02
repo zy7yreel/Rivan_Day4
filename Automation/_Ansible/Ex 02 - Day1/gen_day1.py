@@ -657,27 +657,27 @@ class GeneratePlaybook:
                     'commands': [
                         'config t',
                         'application',
-                        r'"service rivanaa flash:app-b-acd-aa-3.0.0.2.tcl"',
+                        'service rivanaa flash:app-b-acd-aa-3.0.0.2.tcl',
                         'paramspace english index 1',
                         'param number-of-hunt-grps 2',
                         'param dial-by-extension-option 8',
                         'param handoff-string rivanaa',
-                        r'"param welcome-prompt flash:en_bacd_welcome.au"',
+                        'param welcome-prompt flash:en_bacd_welcome.au',
                         'paramspace english language en',
                         'param call-retry-timer 15',
                         'param service-name rivanqueue',
-                        r'"paramspace english location flash:"',
+                        'paramspace english location flash:',
                         'param second-greeting-time 60',
                         'param max-time-vm-retry 2',
                         'param voice-mail 1234',
                         'param max-time-call-retry 700',
-                        f'"param aa-pilot {self.m}69"',
-                        r'"service rivanqueue flash:app-b-acd-3.0.0.2.tcl"',
+                        'param aa-pilot {self.m}69',
+                        'service rivanqueue flash:app-b-acd-3.0.0.2.tcl',
                         'param queue-len 15',
-                        f'"param aa-hunt1 {self.m}00"',
-                        f'"param aa-hunt2 {self.m}01"',
-                        f'"param aa-hunt3 {self.m}77"',
-                        f'"param aa-hunt4 {self.m}33"',
+                        f'param aa-hunt1 {self.m}00',
+                        f'param aa-hunt2 {self.m}01',
+                        f'param aa-hunt3 {self.m}77',
+                        f'param aa-hunt4 {self.m}33',
                         'param queue-manager-debugs 1',
                         'param number-of-hunt-grps 4',
                         'end'
@@ -823,4 +823,5 @@ if __name__ == '__main__':
     user_info = promptUserInfo()
     hostFile(**user_info)
     
+
     GeneratePlaybook(**user_info)
