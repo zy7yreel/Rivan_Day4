@@ -214,7 +214,12 @@ conf t
 =====| Step 5 - Run NetOps Virtual Machine
 
 
-=====| Step 6 - Tranfer gen_day1.py inside NetOps's /etc/ansible directory
+=====| Step 6 - Set IP address and Routing
+
+@NetOps
+ifconfig ens192 10.#$34T#.1.12 netmask 255.255.255.0 up
+ip route add 10.0.0.0/8 via 10.#$34T#.1.4 dev ens192
+ip route add 200.0.0.0/24 via 10.#$34T#.1.4 dev ens192
 
 
 =====| Step 7 - Exchange SSH Keys
@@ -260,4 +265,5 @@ Make sure pings are SUCCESS
 =====| Step 9 - Run the playbook
 
 @NetOps
+
 ansible-playbook run_all.yml
