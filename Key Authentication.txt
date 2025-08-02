@@ -1,4 +1,44 @@
 
+Steps
+1. Create Private and Public key
+
+For user:admin
+
+[SSH-KEYGEN]
+
+Create Private Key
+@linux
+ssh-keygen -t rsa -b 2048 -f 
+
+
+
+[OPENSSL]
+openssl genrsa -out art.pem 2048
+
+
+
+Extract Public Key from Private Key
+
+@linux
+openssl rsa -in art.pem -pubout -out art_pub.pem
+
+Set Permissions for Keys
+
+@linux
+chmod 600 art.pem 
+chmod 644 art_pub.pem
+
+
+
+
+
+
+
+
+
+
+
+
 JUMPSERVER
 
 *********************
