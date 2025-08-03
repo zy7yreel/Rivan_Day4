@@ -193,4 +193,49 @@ crypto ipsec transform-set TS esp-aes esp-sha-hmac
 crypto map VPN-MAP 10 ipsec-isakmp
  set peer <other-router-ip>
  set transform-set TS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*****************
+CERTIFICATE AUTHORITY MANAGEMENT
+
+Gen
+
+
+Generate a self-signed certificate via OpenSSL
+
+1. Create a private key
+
+@linux
+openssl genrsa -out admin_privkey.pem 2048
+openssl genrsa -aes256 -out rivan69.pem 2048
+
+2. Output a self-signed certificate via the generated private key.
+
+@linux
+openssl req -new -x509 -key admin_privkey.pem -out admin_cert.pem -days 365
+openssl req -new -x509 -days 3650 -key rivan69.pem -sha256 -extensions v3_ca -out www.rivan69.com
+
+
+Certificate Authority
+
+cd /etc/ssl/
+nano openssl.cnf
+
+
+*********
+dir flash:
+rename flash:pnp-tech-time flash:pnp-tech-time.old 
  match address 100
