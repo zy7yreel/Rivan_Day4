@@ -172,6 +172,7 @@ conf t
  no logging console
  no ip domain-lookup
  ip domain name autoday1.com
+ username rivan privilege 15 secret pass
  username admin privilege 15 secret pass
  line vty 0 14
   transport input all
@@ -191,6 +192,7 @@ conf t
  no logging console
  no ip domain-lookup
  ip domain name autoday1.com
+ username rivan privilege 15 secret pass
  username admin privilege 15 secret pass
  line vty 0 14
   transport input all
@@ -210,6 +212,7 @@ conf t
  no logging console
  no ip domain-lookup
  ip domain name autoday1.com
+ username rivan privilege 15 secret pass
  username admin privilege 15 secret pass
  line vty 0 14
   transport input all
@@ -228,6 +231,27 @@ conf t
  no logging console
  no ip domain-lookup
  ip domain name autoday1.com
+ username rivan privilege 15 secret pass
+ username admin privilege 15 secret pass
+ line vty 0 14
+  transport input all
+  login local
+  exec-timeout 0 0
+ crypto key generate rsa modulus 2048 label devs
+ ip ssh rsa keypair-name devs
+ ip ssh version 2
+ end
+```
+
+```
+@UTM-PH
+conf t
+ hostname UTM-#$34T#
+ service password-encryption
+ no logging console
+ no ip domain-lookup
+ ip domain name autoday1.com
+ username rivan privilege 15 secret pass
  username admin privilege 15 secret pass
  line vty 0 14
   transport input all
@@ -251,3 +275,25 @@ cd keystore
 @NetOps
 ssh-keygen -t rsa -b 2048 -f admin
 ```
+
+---
+
+### Apply keys to user accounts
+```
+@UTM-PH
+conf t
+ ip ssh pubkey-chain
+  username rivan
+   key-string
+```
+
+```
+@NetOps
+cd /root/.ssh/
+cat identity.pub >> authorized_keys
+```
+
+
+### Turn off password authentication for Cisco and Linux.
+@NetOps
+cd /etc/ssh/sshd_config
