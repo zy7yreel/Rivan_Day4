@@ -17,14 +17,14 @@ ip -4 addr
 ```
 
 ### Task 01 - Create the following user accounts:
- - Login: admin
- - Pass: pass
-  
- - Login: sec#$34T#
- - Pass: pass 
+| Login     | Pass |
+| ---       | ---  |
+| admin     | pass |
+|           |      |
+| sec#$34T# | pass |
+|           |      |
+| _________ | pass |
 
- - Login: yourNickname
- - Pass: pass
 
 ```
 @NetOps
@@ -86,6 +86,8 @@ cd /home
 ls -la
 ```
 
+---
+
 ## Exercise 01 - Modify permissions 
 
 | Account   | Permissions |
@@ -99,55 +101,153 @@ ls -la
 
 
 
+---
 
-
-Add groups
+### Add groups
+```
 @NetOps
 groupadd HR
 groupadd SEC
 groupadd CA
+```
 
+---
 
-Exercise 02 - Modify user accounts to achieve the following
+### Exercise 02 - Modify user accounts to achieve the following:
   - admin is part of HR, SEC, CA, and is a sudoer
   - rivan is part of SEC and HR
   - sec#$34T# is part of SEC and CA
 
-
+```
 @NetOps
 usermod -aG HR,SEC,CA admin
+```
 
+---
 
-File Sharing
+### File Sharing
+```
 @NetOps
 chown admin:HR admin
 chown rivan:SEC rivan
 chown sec#$34T#:CA sec#$34T
+```
 
-
-TIP: Don't forget about file permissions
-
+>[!TIP]
+>Don't forget about file permissions
 
 Recursive permissions
+```
 @NetOps
 chmod +s SEC
+```
 
+---
 
+# Privilege Access Management
+Open NetOps VM IP on a browser
+ - User: admin
+ - Pass: C1sc0123
 
-__________
-**********
-Public Key Authentication (Linux)
+For an SSH connection to be established, the device must have:
+    - a non-default hostname         hostname coreBaba#$34T#
+    - a domain name                  ip domain name day1lab.com
+    - a local user account           username admin privilege 15 secret pass
+    - generated crypto keys          crypto key generate rsa modulus 2048
+    - SSH enabled                    ip ssh version 2
+    - enable remote access           transport input all
+    - enable remote user/pass login  login local
 
+Extra lines
+    - password encryption            service password-encryption
+    - no logs                        no logging console
+    - no domain lookups              no ip domain-lookup
+    - no timeout                     exec-timeout 0 0
+
+```
+@coreTaas
+conf t
+ hostname coreTaas-#$34T#
+ service password-encryption
+ no logging console
+ no ip domain-lookup
+ ip domain name autoday1.com
+ username admin privilege 15 secret pass
+ line vty 0 14
+  transport input all
+  login local
+  exec-timeout 0 0
+  exit
+ crypto key generate rsa modulus 2048 label devs
+ ip ssh rsa keypair-name devs
+ ip ssh version 2
+ end
+```
+```
+@coreBaba
+conf t
+ hostname coreBaba-#$34T#
+ service password-encryption
+ no logging console
+ no ip domain-lookup
+ ip domain name autoday1.com
+ username admin privilege 15 secret pass
+ line vty 0 14
+  transport input all
+  login local
+  exec-timeout 0 0
+  exit
+ crypto key generate rsa modulus 2048 label devs
+ ip ssh rsa keypair-name devs
+ ip ssh version 2
+ end
+``` 
+```
+@cucm
+conf t
+ hostname cucm-#$34T#
+ service password-encryption
+ no logging console
+ no ip domain-lookup
+ ip domain name autoday1.com
+ username admin privilege 15 secret pass
+ line vty 0 14
+  transport input all
+  login local
+  exec-timeout 0 0
+ crypto key generate rsa modulus 2048 label devs
+ ip ssh rsa keypair-name devs
+ ip ssh version 2
+ end
+```
+```
+@edge
+conf t
+ hostname edge-#$34T#
+ service password-encryption
+ no logging console
+ no ip domain-lookup
+ ip domain name autoday1.com
+ username admin privilege 15 secret pass
+ line vty 0 14
+  transport input all
+  login local
+  exec-timeout 0 0
+ crypto key generate rsa modulus 2048 label devs
+ ip ssh rsa keypair-name devs
+ ip ssh version 2
+ end
+```
+
+```
 @NetOps
 cd /tmp
-mkdir keys
-cd keys
+mkdir keystore
+cd keystore
+```
 
-Create a Private key.
-
+### Create a Private key.
+```
 @NetOps
-openssl genrsa -aes256 -out admin.pem 2048
-
-Extract public key from private key
-@NetOps
-openssl rsa -in admin.pem -pubout -out admin_pub.pem
+ssh-keygen -t rsa -b 2048 -f admin
+```
