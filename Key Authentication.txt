@@ -37,7 +37,9 @@ Verify a certificate
 openssl verify -CAfile ca-ccna70.pem server-cert.pem
 
 
+win + r = mmc
 
+Trust the root CA then convert server cert to pfx then upload to Personal Certificate
 
 
 
