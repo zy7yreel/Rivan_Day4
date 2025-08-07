@@ -1,4 +1,62 @@
 **************
+
+
+Create Private key with Selfsigned Cert
+
+@linux
+openssl req -x509 -newkey rsa:2048 -days 365 -keyout key-ccna70.pem -out ca-ccna70.pem -subj "C=PH/ST=National Capital Region/L=Makati/O=Rivancorp/OU=IT/CN=ca.ccna70.com/emailAddress=admin@rivanit.com"
+
+*NOTE: Make sure common name is accessible by client
+
+Display Certificate Info
+
+@linux
+openssl x509 -in ca-ccna70.pem -noout -text
+
+
+Create a CSR
+
+@linux
+openssl req -newkey rsa:2048 -days 365 -keyout server-key.pem -out server-req.pem -subj "/C=PH/ST=National Capital Region/L=Makati/O=CCNA70/OU=IT/CN=www.ccna70.com/emailAddress=ccna70@rivanit.com"
+
+
+Sign the CSR
+
+@linux
+openssl x509 -req -in server-req.pem -CA ca-ccna70.pem  -CAkey key-ccna70.pem -CAcreateserial -out server-cert.pem -extfile server-ext.cnf
+
+
+Create a CNF file for SAN
+
+subjectAltName=DNS:www.ccna70.com,DNS:ccna70.com,IP:192.168.102.200
+
+
+Verify a certificate
+
+@linux
+openssl verify -CAfile ca-ccna70.pem server-cert.pem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**************
 Add Certificate to Website
 
 1. Generate Private key
@@ -6,7 +64,7 @@ Add Certificate to Website
 openssl ciphers -v
 
 For root CA (NetOps)
-openssl genrsa -aes256 -out rivan69.pem 2048
+openssl genrsa -aes256 -out ccna70.pem 2048
 
 For server (Windows)
 openssl genrsa -aes256 -out win69.pem 2048
@@ -14,11 +72,15 @@ openssl genrsa -aes256 -out win69.pem 2048
 
 2. Output Root Certificate via Private Key
 
-openssl req -new -x509 -key rivan69.pem -out rivan69.crt -days 365
+openssl req -new -x509 -key ccna70.pem -out ccna70.crt -days 365
 
 3. Generate a CSR for the server
 
 Openssl req -new -key win69.pem -out server.csr
+
+FOR PFX
+
+openssl pkcs12 -export -out ccna70_cert.pfx -inkey ccna70_key.pem -in ccna70_cert.crt -addext "subjectAltName = DNS:ccna70.com,DNS:www.ccna70.com"
 
 
 2. Sign the servers csr using the root CA
