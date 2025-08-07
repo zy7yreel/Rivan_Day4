@@ -295,5 +295,55 @@ cat identity.pub >> authorized_keys
 
 
 ### Turn off password authentication for Cisco and Linux.
+```
 @NetOps
 cd /etc/ssh/sshd_config
+```
+
+```
+@UTM-PH
+conf t
+ no ip ssh server algorithm authentication password
+ end
+```
+
+# Configuring certificates for web apps
+
+### Step 01 - Create Private key with Selfsigned Cert
+```
+@NetOps
+openssl req -x509 -newkey rsa:2048 -days 365 -keyout key-ccna70.pem -out ca-ccna70.pem -subj "C=PH/ST=National Capital Region/L=Makati/O=Rivancorp/OU=IT/CN=ca.ccna70.com/emailAddress=admin@rivanit.com"
+```
+
+*NOTE: Make sure common name is accessible by client
+
+Display Certificate Info
+```
+@linux
+openssl x509 -in ca-ccna70.pem -noout -text
+```
+
+
+### Step 02 - Create a certificate signing request
+```
+@linux
+openssl req -newkey rsa:2048 -days 365 -keyout server-key.pem -out server-req.pem -subj "/C=PH/ST=National Capital Region/L=Makati/O=CCNA70/OU=IT/CN=www.ccna70.com/emailAddress=ccna70@rivanit.com"
+```
+
+
+### Step 03 - Sign the CSR
+```
+@linux
+openssl x509 -req -in server-req.pem -CA ca-ccna70.pem  -CAkey key-ccna70.pem -CAcreateserial -out server-cert.pem -extfile server-ext.cnf
+```
+
+Verify a certificate
+```
+@linux
+openssl verify -CAfile ca-ccna70.pem server-cert.pem
+```
+
+Trust the root CA then convert server cert to pfx then upload to Personal Certificate Store.
+
+
+
