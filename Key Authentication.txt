@@ -1,3 +1,34 @@
+**************
+Add Certificate to Website
+
+1. Generate Private key
+
+openssl ciphers -v
+
+For root CA (NetOps)
+openssl genrsa -aes256 -out rivan69.pem 2048
+
+For server (Windows)
+openssl genrsa -aes256 -out win69.pem 2048
+
+
+2. Output Root Certificate via Private Key
+
+openssl req -new -x509 -key rivan69.pem -out rivan69.crt -days 365
+
+3. Generate a CSR for the server
+
+Openssl req -new -key win69.pem -out server.csr
+
+
+2. Sign the servers csr using the root CA
+
+openssl x509 -req -in server.csr -CA rivan69.crt -CAkey rivan69.pem -CAcreateserial -out serversigned.crt -days 356 -sha256
+**************
+
+
+
+
 
 Steps
 1. Create Private and Public key
