@@ -40,8 +40,11 @@ openssl x509 -req -in req-server-sec69.pem -CA rootca-sec69.pem -CAkey privkey-s
 openssl verify -CAfile rootca-sec69.pem signed-server-sec69.pem 
 
 
+## Transfer the files to Windows
 
-
+ftp [windows ip]
+put rootca-sec69.pem
+put signed-server-sec69.pem
 
 
 
