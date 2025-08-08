@@ -27,7 +27,7 @@ nano san-server-sec69.com
 
 Paste the SAN 
 
-subjectAltName=DNS:www.ccna70.com,DNS:ccna70.com,IP:192.168.102.200
+subjectAltName=DNS:www.sec69.com,DNS:sec69.com,IP:192.168.102.100
 
 
 ## Sign the CSR with the added SAN information
