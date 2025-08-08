@@ -13,6 +13,7 @@
 
 openssl req -x509 -newkey rsa:2048 -days 365 -keyout privkey-sec69.pem -out rootca-sec69.pem -nodes
 
+*NOTE: The common name must match exactly what the record is. ex. if the site uses www. you add www. to the common name
 
 ## Create a Certificate Signing Request
 
