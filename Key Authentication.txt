@@ -39,6 +39,9 @@ openssl x509 -req -in req-server-sec69.pem -CA rootca-sec69.pem -CAkey privkey-s
 
 openssl verify -CAfile rootca-sec69.pem signed-server-sec69.pem 
 
+## Convert the Signed Certificate to .pfx
+
+openssl pkcs12 -export -out signed-server-sec69.pfx -inkey privkey-server-sec69.pem -in signed-server-sec69.pem -certfile ca_bundle.crt
 
 ## Transfer the files to Windows
 
