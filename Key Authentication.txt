@@ -1,3 +1,57 @@
+
+## Setup WinServer 2022, DNS, and WebServer
+  - Turn off the firewall
+  - Change the computer name
+  - Configure ip addresses
+
+## Setup DNS and website for sec69.com
+  - DNS records with an A record for the CA
+  - Website
+
+
+## Create Private key with a Selfsigned Cert
+
+openssl req -x509 -newkey rsa:2048 -days 365 -keyout privkey-sec69.pem -out rootca-sec69.pem -nodes
+
+
+## Create a Certificate Signing Request
+
+openssl req -newkey rsa:2048 -days 365 -keyout privkey-server-sec69.pem -out req-server-sec69.pem -nodes
+
+*NOTE: the CSR came from the client (sec69.com), which means the information must be for the client.
+
+
+## Create a Configuration File to add SAN attributes to the certificate.
+
+nano san-server-sec69.com
+
+Paste the SAN 
+
+subjectAltName=DNS:www.ccna70.com,DNS:ccna70.com,IP:192.168.102.200
+
+
+## Sign the CSR with the added SAN information
+
+openssl x509 -req -in req-server-sec69.pem -CA rootca-sec69.pem -CAkey privkey-sec69.pem -CAcreateserial -out signed-server-sec69.pem -extfile san-server-sec69.cnf
+
+
+## Verify SignedCertificate Validiy
+
+openssl verify -CAfile rootca-sec69.pem signed-server-sec69.pem 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **************
 
 
