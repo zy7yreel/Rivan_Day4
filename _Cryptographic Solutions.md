@@ -21,10 +21,25 @@
 > [!NOTE]
 > Make sure the Bridge is configured for the Real NetAdapter of the PC.
 
-Login: `root`
+<img width="792" height="772" alt="image" src="https://github.com/user-attachments/assets/110619a3-8b8c-47e6-b120-bc63b2bd08c4" />
+
+
+&nbsp;
+---
+&nbsp;
+
+### Run the __NetOps__ VM then login as the root.
+
+Login: `root`                               <br>
 Pass: `C1sc0123`
 
+<img width="702" height="373" alt="image" src="https://github.com/user-attachments/assets/50194154-c13c-4eb1-a2f8-c0c2194bd01c" />
+
 <br>
+
+Once logged in, obtain the IP on its `eth0` interface
+
+
 
 Get the IP of your VM and establish an SSH session in SecureCRT.
 
