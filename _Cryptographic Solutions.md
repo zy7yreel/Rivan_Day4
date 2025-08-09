@@ -1,12 +1,12 @@
 
 <!-- Your monitor number = #$34T# -->
 
-# Linux user account management
+# 🐧 Linux user account management
 *What is the most used operating system? __Linux (For servers)__*
 
 <br>
 
-## TASK 1 - Lab Setup
+## 📦 Lab Setup
 
 ### Access the __NetOps__ VM then modify the Network Adapters
 1. Open the __NetOps.ova__ file
@@ -26,36 +26,47 @@
 
 &nbsp;
 ---
-&nbsp;
 
 ### Run the __NetOps__ VM then login as the root.
 
 Login: `root`                               <br>
 Pass: `C1sc0123`
 
-<img width="702" height="373" alt="image" src="https://github.com/user-attachments/assets/50194154-c13c-4eb1-a2f8-c0c2194bd01c" />
-
 <br>
 
-Once logged in, obtain the IP on its `eth0` interface
+<img width="702" height="373" alt="image" src="https://github.com/user-attachments/assets/50194154-c13c-4eb1-a2f8-c0c2194bd01c" />
 
+&nbsp;
+---
+&nbsp;
 
-
-Get the IP of your VM and establish an SSH session in SecureCRT.
+Once logged in, obtain the IP on its `ens160` interface.
 
 ```
 @NetOps
 ip -4 addr
 ```
 
-### Task 01 - Create the following user accounts:
-| Login     | Pass |
-| ---       | ---  |
-| admin     | pass |
-|           |      |
-| sec#$34T# | pass |
-|           |      |
-| _________ | pass |
+<br>
+
+<img width="705" height="379" alt="image" src="https://github.com/user-attachments/assets/0b52d229-7d45-40db-84b9-759d7f8a0a70" />
+
+
+&nbsp;
+---
+
+### Use SecureCRT (Or any terminal emulator) to establish an SSH session with the virtual machine.
+
+<img width="812" height="765" alt="image" src="https://github.com/user-attachments/assets/ef1e8ec5-50bb-4b70-9c74-ad0ee23a25ae" />
+
+<br>
+<br>
+
+---
+&nbsp;
+
+## 👦 Account creation and management
+
 
 
 ```
