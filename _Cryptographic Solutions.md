@@ -2,10 +2,27 @@
 <!-- Your monitor number = #$34T# -->
 
 # Linux user account management
+*What is the most used operating system? __Linux (For servers)__*
 
-Access __NetOps__ VM
- - Login: `root`
- - Pass: `C1sc0123`
+<br>
+
+## TASK 1 - Lab Setup
+
+### Access the __NetOps__ VM then modify the Network Adapters
+1. Open the __NetOps.ova__ file
+2. Modify the following Network Adapters
+> | Network Adapter | Connection         |
+> | ---             | ---                |
+> | 1               | NAT                |
+> | 2               | VMnet 2            |
+> | 3               | VMnet 3            |
+> | 4               | Bridge (Replicate) |
+
+> [!NOTE]
+> Make sure the Bridge is configured for the Real NetAdapter of the PC.
+
+Login: `root`
+Pass: `C1sc0123`
 
 <br>
 
