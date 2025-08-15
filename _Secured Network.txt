@@ -188,7 +188,6 @@ conf t
 
 ANSWERS:
 
-********
 Task 1.
 
 @R1
@@ -206,7 +205,6 @@ conf t
   end
 
 
-********
 Task 2.
 
 @R1
@@ -247,7 +245,6 @@ conf t
   end
 
 
-********
 Task 3.
 
 @R1
@@ -1326,4 +1323,5 @@ sudo su
 ifconfig eth0 20.20.20.20 netmask 255.255.255.0 up
 route add default gw 20.20.20.12
 ping 20.20.20.12
+
 
