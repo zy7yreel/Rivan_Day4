@@ -255,11 +255,50 @@ conf t
 
 
 
-  
+
 __________
 **********
-02. Configuration and Infrastructure Management Tools
-(Ansible, Terraform, Puppet, & Chef)
+02. Configuration and Infrastructure Management Tools. (Ansible, Terraform, Puppet, & Chef)
+*From Shell Scripting to Automation management tools.*
+
+Shell scripting
+Output Hello
+~~~
+@linux
+nano hello.sh
+
+///Edit hello.sh
+echo "hello world"
+///
+
+chmod 500 hello.sh
+./hello.sh
+~~~
+
+
+Create Multi users
+~~~
+@linux
+nano add_user.sh
+
+///add_user.sh
+adduser m_user1
+echo "m_user1:C1sc0123" | chpasswd
+
+adduser m_user2
+echo "m_user2:C1sc0123" | chpasswd
+
+adduser m_user3
+echo "m_user3:C1sc0123" | chpasswd
+///
+
+chmod 500 add_user.sh
+./add_user.sh
+~~~
+
+
+
+
 
 Agentless vs Agentbased
 
@@ -1323,5 +1362,6 @@ sudo su
 ifconfig eth0 20.20.20.20 netmask 255.255.255.0 up
 route add default gw 20.20.20.12
 ping 20.20.20.12
+
 
 
