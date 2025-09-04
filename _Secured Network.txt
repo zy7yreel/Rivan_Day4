@@ -1137,7 +1137,7 @@ conf t
 Now, open the following ports otherwise you will work in Jollibee.
 
 www.web310.com open only daytime, chargen, skinny-client-control-protocol
-www.web311.com open only domain, discard, sip, finger, h323q931, ping, ntp
+www.web311.com open only domain, discard, sip, finger, ping, ntp
 
 @UTM-PH
 config t
@@ -1362,6 +1362,7 @@ sudo su
 ifconfig eth0 20.20.20.20 netmask 255.255.255.0 up
 route add default gw 20.20.20.12
 ping 20.20.20.12
+
 
 
 
