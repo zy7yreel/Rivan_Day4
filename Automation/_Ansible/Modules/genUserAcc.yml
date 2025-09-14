@@ -1,0 +1,26 @@
+---
+- name: Add Users
+  hosts: onprem
+  gather_facts: no
+  become: yes
+  tasks: 
+    - name: Create User rivan
+      cisco.ios.ios_user:
+        name: rivan
+        configured_password: C1sc0123
+        privilege: 15
+        state: present
+
+    - name: Create User art
+      cisco.ios.ios_user:
+        name: art
+        configured_password: C1sc0123
+        privilege: 15
+        state: present
+
+    - name: Create User user123
+      cisco.ios.ios_user:
+        name: user123
+        configured_password: C1sc0123
+        privilege: 15
+        state: present
