@@ -18,21 +18,21 @@
   tasks: 
     - name: Create User Accounts
       cisco.ios.ios_user:
-        name: {{ acc_1.user }}
-        configured_password: {{ acc_1.pass }}
+        name: '{{ acc_1.user }}'
+        configured_password: '{{ acc_1.pass }}'
         privilege: 15
         state: present
 
     - name: Create User art
       cisco.ios.ios_user:
-        name: {{ acc_2.user }}
-        configured_password: {{ acc_2.pass }}
+        name: '{{ acc_2.user }}'
+        configured_password: '{{ acc_2.pass }}'
         privilege: 15
         state: present
 
     - name: Create User user123
       cisco.ios.ios_user:
-        name: {{ acc_3.user }}
-        configured_password: {{ acc_3.pass }}
+        name: '{{ acc_3.user }}'
+        configured_password: '{{ acc_3.pass }}'
         privilege: 15
         state: present
