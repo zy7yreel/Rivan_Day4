@@ -1715,5 +1715,34 @@ crypto isakmp key secretkey address 133.33.33.2
 
 
 
+________________
+****************
+13. SSH Keygen Public key Authentication
+
+@Linux
+ssh-keygen -t rsa -b 2048 -f mine
+fold -b -w 72 /home/ubuntu/.ssh/id_rsa.pub
+
+
+3. Create a User with public key-chain.
+@Cisco
+conf t
+ username aerin privilege 15
+ ip ssh pubkey-chain
+  username aerin
+   key-string
+    <PASTE PUB KEY>
+	exit
+   end
+
+
+4. Disable Password authentication.
+
+@Cisco
+conf t
+ ip ssh server algorithm authentication publickey
+ no ip ssh server algorithm authentication password
+ no ip ssh server algorithm authentication keyboard
+ end
 
 
