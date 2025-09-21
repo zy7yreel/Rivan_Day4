@@ -109,7 +109,7 @@ corebaba_config = [
     f'default-router 10.{user_m}.10.4',
     'domain-name WIFIDATA.COM',
     f'dns-server 10.{user_m}.1.10',
-    f'option 43 ip 10.{user_m}.10.{user_m}'
+    f'option 43 ip 10.{user_m}.10.{user_m}',
     'exit',
 
     'ip dhcp pool POOLCCTV',
@@ -454,3 +454,4 @@ edge_config = [
     'ip ospf network point-to-point',
     'exit'
 ]
+
