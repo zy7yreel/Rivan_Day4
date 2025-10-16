@@ -130,7 +130,7 @@ conf t
 !@EDGE
 conf t
  ip domain lookup
- ip name-server 10.12.1.8 10.12.1.10
+ ip name-server 10.12.1.10
  end
 
 
