@@ -405,7 +405,7 @@ ST = NCR
 L  = Makati
 O  = Rivancorp
 OU = HQ
-CN = admin@rivancorp.com
+CN = RivanCorporation
 
 [ v3_req ]
 subjectAltName = @alt_names
@@ -425,9 +425,128 @@ openssl req -x509 -newkey rsa:2048 -days 365 -keyout rivan.key -out ca-rivan.crt
 Verify:
 
 
-5.
+5. Import CA to Cisco Devices
+
+!@VPN-PH
+conf t
+ crypto pki trustpoint rivantrust
+  enrollment terminal pem
+  hash sha512
+  subject-name CN=siteph.rivan.com, C=PH, ST=NCR, L=Makati, O=Rivancorp, OU=SitePH, E=siteph@rivancorp.com
+  subject-alt-name siteph.rivan.com
+  subject-alt-name ph.rivan.com
+  storage nvram: 
+  primary
+  revocation-check none
+  rsakeypair rivankeys
+  exit
+ crypto pki authenticate rivantrust
+> Paste the CA
 
 
+!@VPN-JP
+conf t
+ crypto pki trustpoint rivantrust
+  enrollment terminal pem
+  hash sha512
+  subject-name CN=siteph.rivan.com, C=JP, ST=Kanto, L=Tokyo, O=Rivancorp, OU=SiteJP, E=sitejp@rivancorp.com
+  subject-alt-name sitejp.rivan.com
+  subject-alt-name jp.rivan.com
+  storage nvram: 
+  primary
+  revocation-check none
+  rsakeypair rivankeys
+  exit
+ crypto pki authenticate rivantrust
+> Paste the CA
+
+
+6. Generate a CSR for both Routers
+!@VPN-PH, VPN-JP
+crypto pki enroll rivantrust
+
+> Outputs a CSR . Must be signed by the CA
+
+
+7. Import the CSR to the CA Server (NetOps)
+!@NetOps
+nano req-ph.pem
+> paste VPN-PH's CSR
+> ctrl + s (save)
+> ctrl + x (exit)
+
+!@NetOps
+nano req-jp.pem
+> paste VPN-JP's CSR
+> ctrl + s (save)
+> ctrl + x (exit
+
+
+8. Create Configuration files for each VPN Routers
+!@NetOps
+nano vpnph.cnf
+###########
+
+[ req ]
+default_bits       = 2048
+distinguished_name = req_distinguished_name
+x509_extensions    = v3_req
+prompt             = no
+
+[ req_distinguished_name ]
+C  = PH
+ST = NCR
+L  = Makati
+O  = Rivancorp
+OU = SitePH
+CN = RivanCorpPH
+
+[ v3_req ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1   = rivan.ph
+DNS.2   = www.rivan.ph
+DNS.3   = api.rivan.ph
+IP.1    = 208.8.8.11
+
+###########
+
+
+!@NetOps
+nano vpnjp.cnf
+###########
+
+[ req ]
+default_bits       = 2048
+distinguished_name = req_distinguished_name
+x509_extensions    = v3_req
+prompt             = no
+
+[ req_distinguished_name ]
+C  = JP
+ST = Kanto
+L  = Tokyo
+O  = Rivancorp
+OU = SiteJP
+CN = RivanCorpJP
+
+[ v3_req ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1   = rivan.jp
+DNS.2   = www.rivan.jp
+DNS.3   = api.rivan.jp
+IP.1    = 208.8.8.12
+
+###########
+
+
+8. Sign the CSRs
+!@NetOps
+openssl x509 -req -in req-ph.pem -CA ca-rivan.crt -CAkey key-rivan.key -out signed-ph.pem -ext vpnph.cnf
+openssl x509 -req -in req-jp.pem -CA ca-rivan.crt -CAkey key-rivan.key -out signed-jp.pem -ext vpnjp.cnf
 
 
 
