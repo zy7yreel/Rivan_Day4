@@ -652,6 +652,109 @@ show crypto ipsec sa
 
 
 
+#####
+Open Ports
+
+!@VPN-PH
+config t
+ int gi 3
+  no shut
+  ip add 192.168.103.11 255.255.255.0
+  ip add 192.168.103.10 255.255.255.0 Secondary
+ service finger
+ service tcp-small-servers
+ service udp-small-servers
+ ip dns server
+ ip http server
+ ip http secure-server
+ ip host www.web310.com 192.168.103.10
+ ip host www.web311.com 192.168.103.11
+ ip name-server 8.8.8.8 1.1.1.1
+ ip route 0.0.0.0 0.0.0.0 208.8.8.2
+ ip domain lookup
+ end
+
+ENABLE VoIP Features
+!@UTM-PH
+conf t
+ no telephony-service
+ telephony-service
+  no auto assign
+  no auto-reg-ephone
+  max-ephones 5
+  max-dn 20
+  ip source-address 208.8.8.11 port 2000
+  exit
+ voice service voip
+  allow-connections h323 to sip
+          
+  allow-connections sip to h323
+  allow-connections sip to sip
+  supplementary-service h450.12
+ sip
+   bind control source-interface g1
+   bind media source-interface g1
+   registrar server expires max 600 min 60
+ voice register global
+  mode cme
+  source-address 208.8.8.11 port 5060
+  max-dn 12
+  max-pool 12
+  authenticate register
+  create profile sync syncinfo.xml
+  end
+
+Modify the hosts file: c:\Windows\system32\drivers\etc\hosts
+Scan the sites:
+
+
+www.sti.edu.ph    vs    www.cia.gov     vs     www.neu.edu.ph
+
+@cmd
+nmap -v www.sti.edu.ph
+nmap -v www.dlsu.edu.ph
+nmap -v www.neu.edu.ph
+
+Activity 03: Open the following ports for www.web310.com
+Allow: HTTP, HTTPS, DNS, SSH
+
+Activity 04: Open the following ports for www.web310.com
+Allow: TELNET, SCCP, SIP, SMTP, IMAP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
