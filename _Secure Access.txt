@@ -193,11 +193,15 @@ conf t
  no ip route 10.#$34T#.0.0 255.255.0.0 172.16.1.#$34T# 252
  end
 
-
-
-
-
-
+!@EDGE
+conf t
+ no router ospf 1
+ router ospf 1
+  router-id #$34T#.0.0.1
+  network 10.#$34T#.#$34T#.0 0.0.0.255 area #$34T#
+  network #$34T#.0.0.1 0.0.0.0 area #$34T#
+  default-information originate
+  end
 
 
 
@@ -326,6 +330,7 @@ Exercise 01: Configure Site-to-Site VPN for BLDG-PH, BLDG-JP-1, BLDG-JP-2
 
 
 
+
 #####
 Site-to-Site VPN (Signature)
 
@@ -357,6 +362,72 @@ Set static routes
 !@NetOps
 ip route add 10.0.0.0/8 via 10.#$34T#.1.4
 ip route add 200.0.0.0/24 via 10.#$34T.1.4
+
+
+Activity 02: Create a Selfsigned root CA with the following subject names
+For the CA (NetOps)
+
+Country Name (2 letter code) [XX]:PH
+State or Province Name (full name) []:NCR
+Locality Name (eg, city) [Default City]:Makati
+Organization Name (eg, company) [Default Company Ltd]:Rivancorp
+Organizational Unit Name (eg, section) []:HQ
+Common Name (eg, your name or your server's hostname) []:rivan.com
+Email Address []:admin@rivancorp.com
+
+1. Create a directory for the certstore
+!@NetOps
+mkdir certstore
+cd certstore
+
+
+2. Create a Private key with a Selfsigned Certificate (SSH keys:ssh-keygen vs TLS/SSL keys:openssl)
+!@NetOps
+openssl req -x509 -newkey rsa:2048 -days 365 -keyout rivan.key -out ca-rivan.crt -nodes
+
+Verify the certificate
+!@NetOps
+openssl x509 -in ca-rivan.crt -text -noout
+
+3. Create a configuration file to specify subject alternate names.
+!@NetOps ext.cnf
+###########
+
+[ req ]
+default_bits       = 2048
+distinguished_name = req_distinguished_name
+x509_extensions    = v3_req
+prompt             = no
+
+[ req_distinguished_name ]
+C  = PH
+ST = NCR
+L  = Makati
+O  = Rivancorp
+OU = HQ
+CN = admin@rivancorp.com
+
+[ v3_req ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1   = rivan.com
+DNS.2   = www.rivan.com
+DNS.3   = api.rivan.com
+IP.1    = 10.#$34T#.1.6
+
+###########
+
+4. Generate root CA with subject alt names
+!@NetOps
+openssl req -x509 -newkey rsa:2048 -days 365 -keyout rivan.key -out ca-rivan.crt -nodes -config ext.cnf -extensions v3_req
+
+Verify:
+
+
+5.
+
+
 
 
 
