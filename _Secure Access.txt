@@ -48,6 +48,7 @@ conf t
 
 !@CoreBABA
 conf t
+ ip routing
  router ospf 1
   router-id 10.#$34T#.#$34T#.4
   network 10.#$34T#.0.0 0.0.255.255 area #$34T#
