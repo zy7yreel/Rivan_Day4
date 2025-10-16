@@ -545,9 +545,23 @@ IP.1    = 208.8.8.12
 
 8. Sign the CSRs
 !@NetOps
-openssl x509 -req -in req-ph.pem -CA ca-rivan.crt -CAkey key-rivan.key -out signed-ph.pem -ext vpnph.cnf
-openssl x509 -req -in req-jp.pem -CA ca-rivan.crt -CAkey key-rivan.key -out signed-jp.pem -ext vpnjp.cnf
+openssl x509 -req -in req-ph.pem -CA ca-rivan.crt -CAkey rivan.key -out signed-ph.pem -extfile vpnph.cnf -extensions v3_req
+openssl x509 -req -in req-jp.pem -CA ca-rivan.crt -CAkey rivan.key -out signed-jp.pem -extfile vpnjp.cnf -extensions v3_req
 
+Verify:
+
+!@NetOps
+cat signed-ph.pem
+cat signed-jp.pem
+
+
+9. Import the signed CSRs
+
+!@VPN-PH, VPN-JP
+conf t
+ crypto pki import rivantrust certificate
+
+> Paste the signed CSR
 
 
 
